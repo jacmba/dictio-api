@@ -1,15 +1,22 @@
-Requirement already satisfied: pytest-watch in ./lib/python3.6/site-packages
-Requirement already satisfied: colorama>=0.3.3 in ./lib/python3.6/site-packages (from pytest-watch)
-Requirement already satisfied: docopt>=0.4.0 in ./lib/python3.6/site-packages (from pytest-watch)
-Requirement already satisfied: pytest>=2.6.4 in ./lib/python3.6/site-packages (from pytest-watch)
-Requirement already satisfied: watchdog>=0.6.0 in ./lib/python3.6/site-packages (from pytest-watch)
-Requirement already satisfied: toml in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: importlib-metadata>=0.12; python_version < "3.8" in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: iniconfig in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: packaging in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: attrs>=19.2.0 in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: py>=1.8.2 in ./lib/python3.6/site-packages (from pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: typing-extensions>=3.6.4; python_version < "3.8" in ./lib/python3.6/site-packages (from importlib-metadata>=0.12; python_version < "3.8"->pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: zipp>=0.5 in ./lib/python3.6/site-packages (from importlib-metadata>=0.12; python_version < "3.8"->pytest>=2.6.4->pytest-watch)
-Requirement already satisfied: pyparsing>=2.0.2 in ./lib/python3.6/site-packages (from packaging->pytest>=2.6.4->pytest-watch)
+attrs==21.2.0
+click==8.0.0
+dataclasses==0.8
+Flask==2.0.0
+importlib-metadata==4.0.1
+iniconfig==1.1.1
+itsdangerous==2.0.0
+Jinja2==3.0.0
+jsonify==0.5
+MarkupSafe==2.0.0
+packaging==20.9
+pkg-resources==0.0.0
+pluggy==0.13.1
+py==1.10.0
+pymongo==3.11.4
+pyparsing==2.4.7
+pytest==6.2.4
+pytest-mock==3.6.1
+toml==0.10.2
+typing-extensions==3.10.0.0
+Werkzeug==2.0.0
+zipp==3.4.1
