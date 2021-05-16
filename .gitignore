@@ -2,3 +2,6 @@ bin
 lib
 lib64
 share
+
+*/**/__pycache__
+man/
