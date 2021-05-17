@@ -11,4 +11,7 @@ class DB:
 
     def find_alphabet(self):
         cols = self.client[self.database].list_collection_names()
+        cols = list(filter(lambda x: len(x) == 1, cols))
+        cols = list(map(lambda x: x.upper(), cols))
+        cols = sorted(cols)
         return cols

@@ -3,6 +3,11 @@ from unittest.mock import patch
 from data.db import DB
 
 
+class mockDb:
+    def list_collection_names(self):
+        return ["A", "B", "wrong", "C"]
+
+
 class test_db(unittest.TestCase):
     def setUp(self):
         self.db = DB("mongodb://mock", "mock")
@@ -17,12 +22,7 @@ class test_db(unittest.TestCase):
         mock.assert_called_once_with("mongodb://mock")
         assert self.db.client["foo"] == "bar"
 
-    @patch("data.db.pymongo.MongoClient",
-           return_value={
-               "mock": {
-                   "list_collection_names": lambda: ["A", "B", "C"]
-               }
-           })
+    @patch("data.db.pymongo.MongoClient", return_value={"mock": mockDb()})
     def test_find_alphabet(self, mock):
         self.db.connect()
         result = self.db.find_alphabet()
