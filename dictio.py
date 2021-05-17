@@ -33,7 +33,7 @@ def not_found(e):
 
 
 @app.route("/dictio/alphabet", methods=["GET"])
-def getAlphabet():
+def get_alphabet():
     """
     This endpoint returns the letters of the alphabet that forms the dictionary
     ---
@@ -55,7 +55,7 @@ def getAlphabet():
 
 
 @app.route("/dictio/<letter>/<word>")
-def getWord(letter, word):
+def get_word(letter, word):
     """
     This endpoint returns de definition of a word given its name and initial
     ---
@@ -69,9 +69,15 @@ def getWord(letter, word):
         example:
           "A"
       Definition:
-        type: string
-        example:
-          "Lorem ipsum dolor sit amet"
+        type: object
+        properties:
+          word:
+            type: string
+          definition:
+            type: string
+          example:
+            word: foo
+            definition: Lorem ipsum dolor sit amet
     parameters:
     - name: letter
       in: path
@@ -93,6 +99,29 @@ def getWord(letter, word):
     if result is None:
         abort(404, "Word not found")
     return {"word": result["word"], "definition": result["definition"]}
+
+
+@app.route("/dictio/<letter>/random")
+def get_random_word(letter):
+    """
+    This endpoint returns a random word starting with given letter
+    ---
+    parameters:
+      - name: letter
+        in: path
+        required: true
+        schema:
+          $ref: '#/definitions/Letter'
+    responses:
+      200:
+        description: Definition of the random word
+        schema:
+          $ref: '#/definitions/Definition'
+    """
+    result = list(db.find_random_word(letter.lower()))
+    if result is None or len(result) == 0:
+        abort(404, "Letter not found")
+    return {"word": result[0]["word"], "definition": result[0]["definition"]}
 
 
 app.run(debug=True)

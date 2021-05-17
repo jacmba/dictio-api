@@ -12,6 +12,9 @@ class mockColl:
     def find_one(self, query):
         return {"definition": "lorem ipsum dolor sit amet"}
 
+    def aggregate(self, pipeline):
+        return {"definition": "random word"}
+
 
 class test_db(unittest.TestCase):
     def setUp(self):
@@ -41,3 +44,12 @@ class test_db(unittest.TestCase):
         self.db.connect()
         result = self.db.find_word("a", "whatever")
         assert result["definition"] == "lorem ipsum dolor sit amet"
+
+    @patch("data.db.pymongo.MongoClient",
+           return_value={"mock": {
+               "a": mockColl()
+           }})
+    def test_find_random_word(self, mock):
+        self.db.connect()
+        result = self.db.find_random_word("a")
+        assert result["definition"] == "random word"

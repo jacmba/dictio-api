@@ -21,3 +21,8 @@ class DB:
         definition = self.client[self.database][letter].find_one(
             {"word": word})
         return definition
+
+    def find_random_word(self, letter):
+        pipeline = [{"$sample": {"size": 1}}]
+        definition = self.client[self.database][letter].aggregate(pipeline)
+        return definition
