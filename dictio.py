@@ -1,5 +1,5 @@
 from data.db import DB
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from flasgger import Swagger
 
 app = Flask(__name__)
@@ -25,6 +25,11 @@ MONGO_DB = "dictio"
 
 db = DB(MONGO_URL, MONGO_DB)
 db.connect()
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify(error=str(e)), 404
 
 
 @app.route("/dictio/alphabet", methods=["GET"])
@@ -85,6 +90,8 @@ def getWord(letter, word):
           $ref: "#/definitions/Definition"
     """
     result = db.find_word(letter, word)
+    if result is None:
+        abort(404, "Word not found")
     return {"word": result["word"], "definition": result["definition"]}
 
 
