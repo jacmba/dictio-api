@@ -19,10 +19,31 @@ class DB:
 
     def find_word(self, letter, word):
         definition = self.client[self.database][letter].find_one(
-            {"word": word})
+            {"word": word}, {
+                "_id": 0,
+                "word": 1,
+                "definition": 1
+            })
         return definition
 
     def find_random_word(self, letter):
-        pipeline = [{"$sample": {"size": 1}}]
+        pipeline = [{
+            "$sample": {
+                "size": 1
+            }
+        }, {
+            "$project": {
+                "_id": 0,
+                "letters": 0
+            }
+        }]
         definition = self.client[self.database][letter].aggregate(pipeline)
-        return definition
+        return list(definition)
+
+    def find_random_dictionary(self):
+        result = dict()
+        letters = self.find_alphabet()
+        for l in letters:
+            word = self.find_random_word(l.lower())
+            result[l.lower()] = word[0]
+        return result

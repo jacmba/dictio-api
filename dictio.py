@@ -98,7 +98,7 @@ def get_word(letter, word):
     result = db.find_word(letter, word)
     if result is None:
         abort(404, "Word not found")
-    return {"word": result["word"], "definition": result["definition"]}
+    return result
 
 
 @app.route("/dictio/<letter>/random")
@@ -118,10 +118,32 @@ def get_random_word(letter):
         schema:
           $ref: '#/definitions/Definition'
     """
-    result = list(db.find_random_word(letter.lower()))
+    result = db.find_random_word(letter.lower())
     if result is None or len(result) == 0:
         abort(404, "Letter not found")
-    return {"word": result[0]["word"], "definition": result[0]["definition"]}
+    return result[0]
+
+
+@app.route("/dictio/random")
+def get_random_dictionary():
+    """
+    This endpoint returns a dictionary with one random word per letter
+    ---
+    definitions:
+      Dictionary:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Definition'
+    responses:
+      200:
+        description: Random dictionary
+        schema:
+          $ref: '#/definitions/Dictionary'
+    """
+    result = db.find_random_dictionary()
+    if result is None or len(result) == 0:
+        abort(404, "Letter not found")
+    return result
 
 
 app.run(debug=True)

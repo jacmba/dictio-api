@@ -9,11 +9,11 @@ class mockDb:
 
 
 class mockColl:
-    def find_one(self, query):
+    def find_one(self, query, project):
         return {"definition": "lorem ipsum dolor sit amet"}
 
     def aggregate(self, pipeline):
-        return {"definition": "random word"}
+        return [{"definition": "random word"}]
 
 
 class test_db(unittest.TestCase):
@@ -52,4 +52,15 @@ class test_db(unittest.TestCase):
     def test_find_random_word(self, mock):
         self.db.connect()
         result = self.db.find_random_word("a")
-        assert result["definition"] == "random word"
+        assert result[0]["definition"] == "random word"
+
+    @patch("data.db.DB.find_alphabet", return_value=["A", "B", "C"])
+    @patch("data.db.DB.find_random_word",
+           return_value=[{
+               "definition": "mock random word"
+           }])
+    def test_find_random_dictionary(self, mock_alphabet, mock_word):
+        self.db.connect()
+        result = self.db.find_random_dictionary()
+        assert len(result) == 3
+        assert result["a"]["definition"] == "mock random word"
