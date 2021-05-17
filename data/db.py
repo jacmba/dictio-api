@@ -1,4 +1,5 @@
 import pymongo
+from pymongo import database
 
 
 class DB:
@@ -15,3 +16,8 @@ class DB:
         cols = list(map(lambda x: x.upper(), cols))
         cols = sorted(cols)
         return cols
+
+    def find_word(self, letter, word):
+        definition = self.client[self.database][letter].find_one(
+            {"word": word})
+        return definition

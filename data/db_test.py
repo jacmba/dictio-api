@@ -8,6 +8,11 @@ class mockDb:
         return ["A", "B", "wrong", "C"]
 
 
+class mockColl:
+    def find_one(self, query):
+        return {"definition": "lorem ipsum dolor sit amet"}
+
+
 class test_db(unittest.TestCase):
     def setUp(self):
         self.db = DB("mongodb://mock", "mock")
@@ -27,3 +32,12 @@ class test_db(unittest.TestCase):
         self.db.connect()
         result = self.db.find_alphabet()
         assert result == ["A", "B", "C"]
+
+    @patch("data.db.pymongo.MongoClient",
+           return_value={"mock": {
+               "a": mockColl()
+           }})
+    def test_find_word(self, mock):
+        self.db.connect()
+        result = self.db.find_word("a", "whatever")
+        assert result["definition"] == "lorem ipsum dolor sit amet"
