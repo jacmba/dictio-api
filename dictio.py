@@ -1,3 +1,4 @@
+from config.config import Config
 from data.db import DB
 from flask import Flask, jsonify, abort
 from flasgger import Swagger
@@ -20,10 +21,8 @@ swagger.template = {
     "basepath": "/dictio"
 }
 
-MONGO_URL = "mongodb://server"
-MONGO_DB = "dictio"
-
-db = DB(MONGO_URL, MONGO_DB)
+cfg = Config()
+db = DB(cfg.mongo_url, cfg.mongo_db)
 db.connect()
 
 
@@ -146,4 +145,4 @@ def get_random_dictionary():
     return result
 
 
-app.run(debug=True, host="0.0.0.0")
+app.run(debug=cfg.debug, host="0.0.0.0")
