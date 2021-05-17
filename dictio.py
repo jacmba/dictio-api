@@ -16,7 +16,7 @@ swagger.template = {
             "email": "jacinto[- at -]gmail.com",
             "url": "jazbelt.net"
         },
-        "version": "0.0.1"
+        "version": "1.0.0"
     },
     "basepath": "/dictio"
 }
